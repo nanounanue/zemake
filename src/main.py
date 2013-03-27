@@ -8,42 +8,42 @@ from Engines.Physics2DEngine import Physics2DEngine
 from Engines.Camera2DEngine import Camera2DEngine
 from Components.Position2D import Position2D
 from Components.Velocity2D import Velocity2D
-from Components.Square import Square
+from Components.Shape2D import Shape2D
 from Components.Representation2D import Representation2D
 from Components.Camera2D import Camera2D
 from Components.AIKeyboard import AIKeyboard
 from MazeMaker import makemaze
 
-SQUARESIZE=30
+SQUARESIZE=16
 HALFSQUARESIZE=SQUARESIZE/2
 SCREENW=640
 SCREENH=480
 
 def makePC(world):
-  pcblock = pygame.image.load("../resources/images/fatlink.bmp")
+  pcblock = pygame.image.load("../resources/images/link.bmp")
   #pcblock = pygame.Surface((SQUARESIZE,SQUARESIZE))
   #pcblock.fill((0,0,255))
   pcblock.set_colorkey((255,0,255))
-  pcblock = pygame.transform.scale(pcblock, (HALFSQUARESIZE,HALFSQUARESIZE))
+  #pcblock = pygame.transform.scale(pcblock, (HALFSQUARESIZE,HALFSQUARESIZE))
   pc = world.createEntity()
-  pc.addComponent(Position2D(SQUARESIZE*1.5, SQUARESIZE*1.5))
+  pc.addComponent(Position2D(120, 80))
   pc.addComponent(Velocity2D())
-  pc.addComponent(Square(HALFSQUARESIZE))
+  pc.addComponent(Shape2D(pygame.Rect(0,HALFSQUARESIZE,SQUARESIZE,HALFSQUARESIZE)))
   pc.addComponent(Representation2D(pcblock, 0))
-  pc.addComponent(Camera2D(pygame.Rect(0,0,SCREENW,SCREENH),1))
+  pc.addComponent(Camera2D(pygame.Rect(0,0,SCREENW,SCREENH),1,2))
   pc.addToWorld()
   return pc
   
 def makeAI(world):
-  aiblock = pygame.image.load("../resources/images/fatlink.bmp")
+  aiblock = pygame.image.load("../resources/images/link.bmp")
   #pcblock = pygame.Surface((SQUARESIZE,SQUARESIZE))
   #pcblock.fill((0,0,255))
   aiblock.set_colorkey((255,0,255))
-  aiblock = pygame.transform.scale(aiblock, (HALFSQUARESIZE,HALFSQUARESIZE))
+  #aiblock = pygame.transform.scale(aiblock, (HALFSQUARESIZE,HALFSQUARESIZE))
   ai = world.createEntity()
-  ai.addComponent(Position2D(SQUARESIZE*1.5, SQUARESIZE*3.5))
+  ai.addComponent(Position2D(80, 80))
   ai.addComponent(Velocity2D())
-  ai.addComponent(Square(HALFSQUARESIZE))
+  ai.addComponent(Shape2D(pygame.Rect(0,HALFSQUARESIZE,SQUARESIZE,HALFSQUARESIZE)))
   ai.addComponent(Representation2D(aiblock, 0))
   ai.addComponent(Camera2D(pygame.Rect(520,20,100,100),0))
   ai.addComponent(AIKeyboard())
@@ -64,44 +64,36 @@ def main():
   pc = makePC(world)
   pcpc = pc.getComponent(Position2D)
   pcvc = pc.getComponent(Velocity2D)
-  pcsc = pc.getComponent(Square)
+  pcsc = pc.getComponent(Shape2D)
   ai = makeAI(world)
   
-  #tiles = te.buildMap("../resources/maps/test.map")
+  tiles = te.buildMap("../resources/maps/first.map",SQUARESIZE)
   w=20
   h=20
-  tiles = makemaze(w,h,SQUARESIZE)
+  #tiles = makemaze(w,h,SQUARESIZE)
   #walls = te.getWalls(tiles)
 
   wallblock = pygame.image.load("../resources/images/wall.bmp")
-  wallblock.set_colorkey((255,0,255))
-  wallblock = pygame.transform.scale(wallblock, (SQUARESIZE,SQUARESIZE))
-  #wallblock = pygame.Surface((SQUARESIZE,SQUARESIZE))
   floorblock = pygame.Surface((SQUARESIZE,SQUARESIZE))
-  floorblock = pygame.transform.scale(floorblock, (SQUARESIZE,SQUARESIZE))
-  blankblock = pygame.Surface((SQUARESIZE,SQUARESIZE))
-  blankblock = pygame.transform.scale(blankblock, (SQUARESIZE,SQUARESIZE))
-
-  #wallblock.fill((55,55,55))
-  floorblock.fill((35,35,35))
-  blankblock.fill((0,0,0))
+  floorblock.fill((255,227,171))
 
   for tile in tiles:
     e = world.createEntity()
     e.addComponent(Position2D(tile.x, tile.y))
     if tile.type == 'wall':
-      e.addComponent(Square(tile.size))
+      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size)))
       e.addComponent(Representation2D(wallblock,1))
-    #elif tile.type == 'floor':
-    #  e.addComponent(Square(tile.size, isSolid=False))
-    #  e.addComponent(Representation2D(floorblock,1))
+      e.addToWorld()
+    elif tile.type == 'floor':
+      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size), isSolid=False))
+      e.addComponent(Representation2D(floorblock,1))
+      e.addToWorld()
     #else:
     #  e.addComponent(Square(tile.size, isSolid=False))
     #  e.addComponent(Representation2D(blankblock,1))
-      e.addToWorld()
     
   #mep = te.blitMap(tiles,w*2+1,h*2+1)
-  speed = 5
+  speed = 4
   t = time.time()
   nexttick = t + (1.0/30)
 
@@ -130,7 +122,8 @@ def main():
             pc.getComponent(Velocity2D).dx = 0 
           if event.key == pygame.K_RIGHT:
             pc.getComponent(Velocity2D).dx = 0
-      for event in ai.getComponent(AIKeyboard).getButtons():
+      buttons = ai.getComponent(AIKeyboard).getButtons()
+      for event in buttons:
         if event == None:
           pass
         elif event.type == pygame.KEYDOWN:
@@ -164,7 +157,7 @@ def main():
       rendert=t2-t1
       if fullt != 0:
         print("# of Entities: " + str(len(world.entities)))
-        print("# of Walls: " + str(len([e for e in world.entities.values() if Square in e.componentTypes and e.getComponent(Square).isSolid])))
+        print("# of Walls: " + str(len([e for e in world.entities.values() if Shape2D in e.componentTypes and e.getComponent(Shape2D).isSolid])))
         print("Time: " + str(fullt) + "("+str(fullt*3000)+"%)")
         print("Update: " + str(updatet/fullt*100) + '%')
         print("Render: " + str(rendert/fullt*100) + '%')

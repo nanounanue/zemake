@@ -11,7 +11,7 @@ class Camera2D(Component):
     elif depth < 0:
       depth = 0
     self._depth = depth
-    self._zoom = float(zoom)
+    self._zoom = zoom
     self._isActive = isActive
    
   @property

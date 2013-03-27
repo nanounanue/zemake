@@ -3,8 +3,9 @@ import random
 from TileEngine import Tile
 
 def _newp(i,tw):
-  hw=tw/2.0
-  return i*tw+hw
+  #hw=tw/2.0
+  #return i*tw+hw
+  return i*tw
 
 def makemaze(w,h,tw):
   random.seed()

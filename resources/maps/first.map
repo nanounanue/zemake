@@ -1,0 +1,200 @@
+<map height="11" width="16">
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="floor"/>
+    <tile type="floor"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor"/>
+    <tile type="floor"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor"/>
+    <tile type="floor"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor"/>
+    <tile type="floor"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor"/>
+    <tile type="floor"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+</map>

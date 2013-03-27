@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as et
 import pygame
 
-def buildMap(filename, tileWidth):
+def buildMap(filename, tw):
   tree = et.parse(filename)
   root = tree.getroot()
   
@@ -15,7 +15,7 @@ def buildMap(filename, tileWidth):
     tiles = rows[j].findall('tile')
     row = []
     for i in range(len(tiles)):
-      row.append(Tile(tiles[i].get('type', 'blank'), i*tileWidth, j*tileWidth))
+      row.append(Tile(tiles[i].get('type', 'blank'), i*tw, j*tw, tw))
     rettiles.append(row)
   
   return [tile for row in rettiles for tile in row]

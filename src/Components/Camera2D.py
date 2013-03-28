@@ -30,7 +30,7 @@ class Camera2D(Component):
 
   @property
   def depth(self):
-    return self._zoom
+    return self._depth
   @depth.setter
   def depth(self, value):
     self._depth = value

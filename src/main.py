@@ -2,16 +2,19 @@ import TileEngine as te
 import pygame
 import math
 import time
+import random
 from Fountain.World import World
 from Fountain.World import EngineType
 from Engines.Physics2DEngine import Physics2DEngine
 from Engines.Camera2DEngine import Camera2DEngine
+from Engines.InputEngine import InputEngine
 from Components.Position2D import Position2D
 from Components.Velocity2D import Velocity2D
 from Components.Shape2D import Shape2D
 from Components.Representation2D import Representation2D
 from Components.Camera2D import Camera2D
 from Components.AIKeyboard import AIKeyboard
+from Components.Player import Player
 from MazeMaker import makemaze
 
 SQUARESIZE=16
@@ -26,12 +29,19 @@ def makePC(world):
   pcblock.set_colorkey((255,0,255))
   #pcblock = pygame.transform.scale(pcblock, (HALFSQUARESIZE,HALFSQUARESIZE))
   pc = world.createEntity()
+  pcpos = Position2D(120,80)
   pc.addComponent(Position2D(120, 80))
   pc.addComponent(Velocity2D())
   pc.addComponent(Shape2D(pygame.Rect(0,HALFSQUARESIZE,SQUARESIZE,HALFSQUARESIZE)))
   pc.addComponent(Representation2D(pcblock, 0))
-  pc.addComponent(Camera2D(pygame.Rect(0,SQUARESIZE*2*4,SCREENW,SQUARESIZE*2*11),1,2))
+  pc.addComponent(Player())
+  #pc.addComponent(Camera2D(pygame.Rect(HALFSQUARESIZE,SQUARESIZE*2*4,SCREENW-SQUARESIZE,SQUARESIZE*2*11),1,2))
   pc.addToWorld()
+  
+  cam = world.createEntity()
+  cam.addComponent(Camera2D(pygame.Rect(0,SQUARESIZE*2*4,SCREENW,SQUARESIZE*2*11),depth=0,zoom=2))
+  cam.addComponent(Position2D(128, 88))
+  cam.addToWorld()
   return pc
   
 def makeAI(world):
@@ -45,21 +55,26 @@ def makeAI(world):
   ai.addComponent(Velocity2D())
   ai.addComponent(Shape2D(pygame.Rect(0,HALFSQUARESIZE,SQUARESIZE,HALFSQUARESIZE)))
   ai.addComponent(Representation2D(aiblock, 0))
-  ai.addComponent(Camera2D(pygame.Rect(0,0,SCREENW,SQUARESIZE*2*4),0,0.5))
+  #ai.addComponent(Camera2D(pygame.Rect(HALFSQUARESIZE,0,SCREENW-SQUARESIZE,SQUARESIZE*2*4),0,0.5))
   ai.addComponent(AIKeyboard())
   ai.addToWorld()
   return ai
 
 def main():
   quit = False
+  random.seed()
 
   pygame.init()
   size = width, height = SCREENW, SCREENH
   screen = pygame.display.set_mode(size)
 
   world = World()
-  world.addEngine(Physics2DEngine(), EngineType.UPDATE)
-  world.addEngine(Camera2DEngine(screen), EngineType.RENDER)
+  inputEngine = InputEngine()
+  physEngine = Physics2DEngine()
+  camEngine = Camera2DEngine(screen)
+  world.addEngine(inputEngine, EngineType.MANUAL)
+  world.addEngine(physEngine, EngineType.UPDATE)
+  world.addEngine(camEngine, EngineType.RENDER)
   
   pc = makePC(world)
   pcpc = pc.getComponent(Position2D)
@@ -109,48 +124,31 @@ def main():
     e.addToWorld()
     
   #mep = te.blitMap(tiles,w*2+1,h*2+1)
-  speed = 4
+  aispeed = random.randint(2,6)
   t = time.time()
   nexttick = t + (1.0/30)
-
+  ct = 90
   while not quit:
     t = time.time()
     if t >= nexttick:
+      if ct == 0: 
+        #physEngine.toggle()
+        ct = 90
+      ct -= 1
       nexttick = t + (1.0/30)
-      for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-          quit = True
-        if event.type == pygame.KEYDOWN:
-          if event.key == pygame.K_UP:
-            pc.getComponent(Velocity2D).dy = -speed
-          if event.key == pygame.K_DOWN:
-            pc.getComponent(Velocity2D).dy = speed
-          if event.key == pygame.K_LEFT:
-            pc.getComponent(Velocity2D).dx = -speed
-          if event.key == pygame.K_RIGHT:
-            pc.getComponent(Velocity2D).dx = speed
-        if event.type == pygame.KEYUP:
-          if event.key == pygame.K_UP:
-            pc.getComponent(Velocity2D).dy = 0 
-          if event.key == pygame.K_DOWN:
-            pc.getComponent(Velocity2D).dy = 0
-          if event.key == pygame.K_LEFT:
-            pc.getComponent(Velocity2D).dx = 0 
-          if event.key == pygame.K_RIGHT:
-            pc.getComponent(Velocity2D).dx = 0
       buttons = ai.getComponent(AIKeyboard).getButtons()
       for event in buttons:
         if event == None:
           pass
         elif event.type == pygame.KEYDOWN:
           if event.key == pygame.K_UP:
-            ai.getComponent(Velocity2D).dy = -speed
+            ai.getComponent(Velocity2D).dy = -aispeed
           if event.key == pygame.K_DOWN:
-            ai.getComponent(Velocity2D).dy = speed
+            ai.getComponent(Velocity2D).dy = aispeed
           if event.key == pygame.K_LEFT:
-            ai.getComponent(Velocity2D).dx = -speed
+            ai.getComponent(Velocity2D).dx = -aispeed
           if event.key == pygame.K_RIGHT:
-            ai.getComponent(Velocity2D).dx = speed
+            ai.getComponent(Velocity2D).dx = aispeed
         if event.type == pygame.KEYUP:
           if event.key == pygame.K_UP:
             ai.getComponent(Velocity2D).dy = 0 
@@ -160,7 +158,9 @@ def main():
             ai.getComponent(Velocity2D).dx = 0 
           if event.key == pygame.K_RIGHT:
             ai.getComponent(Velocity2D).dx = 0
-
+            
+      if inputEngine.update() == pygame.event.Event(pygame.QUIT):
+        quit = True
       t0 = time.time()
       world.update()
       t1 = time.time()

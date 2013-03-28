@@ -22,7 +22,7 @@ class AIKeyboard(Component):
         if b.key == pygame.K_RIGHT:
           kup = [Event(pygame.KEYUP, key=pygame.K_RIGHT)]
       dir = random.randint(0,4)
-      time = random.randint(15,90)
+      time = random.randint(15,60)
       
       self._counter = time
       if dir == 0:

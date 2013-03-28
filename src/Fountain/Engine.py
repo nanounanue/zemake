@@ -1,10 +1,11 @@
 from Messages import Messages
 
 class Engine(object):
-  def __init__(self, *componentTypes):
+  def __init__(self, *componentTypes, **kwargs):
     self._world = None
     self._componentTypes = set(componentTypes)
     self._entities = {}
+    self._isActive = kwargs.pop('isActive', True)
     
   def notify(self, message, entity):
     if message == Messages.ADD:
@@ -18,12 +19,23 @@ class Engine(object):
     raise NotImplementedError("override me!")
   
   @property
+  def isActive(self):
+    return self._isActive
+  @isActive.setter
+  def isActive(self, value):
+    self._isActive = value
+    
+  def toggle(self):
+    self._isActive = not self._isActive
+    
+  @property
   def world(self):
     return self._world
     
   @world.setter
   def world(self, value):
-    self._world = value
+    if self._world == None:
+      self._world = value
     
   def _isInteresting(self, entity):
     for t in self._componentTypes:

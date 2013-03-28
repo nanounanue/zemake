@@ -4,7 +4,7 @@ from Fountain.Utils import enum
 
 from Entity import Entity
 
-EngineType = enum('UPDATE', 'RENDER')
+EngineType = enum('UPDATE', 'RENDER', 'MANUAL')
 
 class World(object):
   def __init__(self):
@@ -53,13 +53,12 @@ class World(object):
     for engine in self.engines:
       engine.notify(message, entity)
       
-  def update(self):
-    for engine in self._engines[EngineType.UPDATE]:
+  def update(self, eType=EngineType.UPDATE):
+    for engine in [e for e in self._engines[eType] if e.isActive]:
       engine.update()
 
   def render(self):
-    for engine in self._engines[EngineType.RENDER]:
-      engine.update()
+    self.update(EngineType.RENDER)
     
 if __name__ == '__main__':
   #UNIT TESTS

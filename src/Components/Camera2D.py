@@ -2,7 +2,7 @@ import pygame
 from Fountain.Component import Component
 
 class Camera2D(Component):
-  def __init__(self, outputRegion, depth=0, zoom=1, isActive=True):
+  def __init__(self, outputRegion, depth=0, zoom=1, isActive=True, border=None):
     if not isinstance(outputRegion, pygame.Rect):
       raise TypeError("Camera2D outputRegion only supports pygame.Rect")
     self._outputRegion = outputRegion
@@ -13,6 +13,9 @@ class Camera2D(Component):
     self._depth = depth
     self._zoom = zoom
     self._isActive = isActive
+    if border is None:
+      border = (0,0,0)
+    self._border = border
    
   @property
   def zoom(self):
@@ -20,6 +23,13 @@ class Camera2D(Component):
   @zoom.setter
   def zoom(self, value):
     self._zoom = value
+    
+  @property
+  def border(self):
+    return self._border
+  @border.setter
+  def border(self, value):
+    self._border = value
 
   @property
   def outputRegion(self):

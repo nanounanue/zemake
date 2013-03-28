@@ -9,13 +9,12 @@ class Camera2DEngine(Engine):
   """A system for rendering 2-dimensional scenes via a camera viewport."""
   def __init__(self, screen):
     self._screen = screen
-    super(Camera2DEngine, self).__init__(Position2D, Camera2D, Shape2D)
+    super(Camera2DEngine, self).__init__(Position2D, Camera2D)
     
   def update(self):
     for entity in reversed(sorted(self._entities.values(), key=lambda e: e.getComponent(Camera2D).depth)):
       epc = entity.getComponent(Position2D)
       ecc = entity.getComponent(Camera2D)
-      esc = entity.getComponent(Shape2D)
       halfw = ecc.outputRegion.w / 2
       halfh = ecc.outputRegion.h / 2
           
@@ -28,7 +27,7 @@ class Camera2DEngine(Engine):
       camrect = pygame.Rect(ecc.outputRegion)
       camrect.w = int(camrect.w/ecc.zoom)
       camrect.h = int(camrect.h/ecc.zoom)
-      camrect.center = esc.center(epc.x, epc.y)
+      camrect.center = (epc.x, epc.y)
       
       for r in reversed(sorted(renderables, 
           key=lambda x: x.getComponent(Representation2D).depth)):
@@ -41,7 +40,7 @@ class Camera2DEngine(Engine):
                         (int((rsc.left(rpc.x)-camrect.centerx)*ecc.zoom)+halfw, 
                          int((rsc.top(rpc.y)-camrect.centery)*ecc.zoom)+halfh))
       frame = pygame.Surface((ecc.outputRegion.w+2, ecc.outputRegion.h+2))
-      frame.fill((255,0,0))
+      frame.fill(ecc.border)
       self._screen.blit(frame, (ecc.outputRegion.x-1, ecc.outputRegion.y-1))
       self._screen.blit(viewport, (ecc.outputRegion.x, ecc.outputRegion.y))
           

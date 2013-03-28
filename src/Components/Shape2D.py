@@ -25,6 +25,8 @@ class Shape2D(Component):
     return y
   def bottom(self, y):
     return self._h + y
+  def center(self, x, y):
+    return self._halfw + x, self._halfh + y
   @property
   def halfw(self):
     return self._halfw

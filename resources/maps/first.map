@@ -24,7 +24,7 @@
     <tile type="wall" />
     <tile />
     <tile type="wall" />
-    <tile type="wall" />
+    <tile type="top-left-corner" />
     <tile type="floor" />
     <tile type="floor" />
     <tile type="wall"/>
@@ -39,25 +39,7 @@
     <tile type="wall"/>
     <tile type="wall"/>
     <tile type="wall" />
-    <tile type="wall" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="wall"/>
-    <tile type="wall"/>
-    <tile type="wall" />
-    <tile type="wall" />
-    <tile type="wall" />
-    <tile type="wall" />
-    <tile type="wall" />
-  </row>
-  <row>
-    <tile type="wall"/>
-    <tile type="wall"/>
-    <tile type="wall" />
-    <tile type="floor" />
+    <tile type="top-left-corner" />
     <tile type="floor" />
     <tile type="floor" />
     <tile type="floor" />
@@ -74,7 +56,7 @@
   <row>
     <tile type="wall"/>
     <tile type="wall"/>
-    <tile type="floor" />
+    <tile type="top-left-corner" />
     <tile type="floor" />
     <tile type="floor" />
     <tile type="floor" />
@@ -82,6 +64,24 @@
     <tile type="floor" />
     <tile type="floor" />
     <tile type="wall"/>
+    <tile type="wall"/>
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+    <tile type="wall" />
+  </row>
+  <row>
+    <tile type="wall"/>
+    <tile type="top-left-corner"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="top-right-corner"/>
     <tile type="wall"/>
     <tile type="wall" />
     <tile type="wall" />
@@ -108,8 +108,8 @@
     <tile type="floor" />
   </row>
   <row>
-    <tile type="wall"/>
-    <tile type="wall"/>
+    <tile type="wall-top"/>
+    <tile type="bottom-left-corner"/>
     <tile type="floor" />
     <tile type="floor" />
     <tile type="floor" />
@@ -122,26 +122,8 @@
     <tile type="floor" />
     <tile type="floor" />
     <tile type="floor" />
-    <tile type="wall" />
-    <tile type="wall" />
-  </row>
-  <row>
-    <tile type="wall"/>
-    <tile type="wall"/>
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor"/>
-    <tile type="floor"/>
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="floor" />
-    <tile type="wall" />
-    <tile type="wall" />
+    <tile type="wall-top" />
+    <tile type="wall-top" />
   </row>
   <row>
     <tile type="wall"/>
@@ -164,18 +146,36 @@
   <row>
     <tile type="wall"/>
     <tile type="wall"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor"/>
+    <tile type="floor"/>
+    <tile type="floor" />
+    <tile type="floor" />
+    <tile type="floor" />
     <tile type="wall" />
     <tile type="wall" />
-    <tile type="wall" />
-    <tile type="wall" />
-    <tile type="wall" />
-    <tile type="wall" />
-    <tile type="wall" />
+  </row>
+  <row>
     <tile type="wall"/>
     <tile type="wall"/>
-    <tile type="wall" />
-    <tile type="wall" />
-    <tile type="wall" />
+    <tile type="wall-top" />
+    <tile type="wall-top" />
+    <tile type="wall-top" />
+    <tile type="wall-top" />
+    <tile type="wall-top" />
+    <tile type="wall-top" />
+    <tile type="wall-top" />
+    <tile type="wall-top"/>
+    <tile type="wall-top"/>
+    <tile type="wall-top" />
+    <tile type="wall-top" />
+    <tile type="wall-top" />
     <tile type="wall" />
     <tile type="wall" />
   </row>

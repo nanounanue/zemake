@@ -16,7 +16,7 @@ from MazeMaker import makemaze
 
 SQUARESIZE=16
 HALFSQUARESIZE=SQUARESIZE/2
-SCREENW=640
+SCREENW=512
 SCREENH=480
 
 def makePC(world):
@@ -30,7 +30,7 @@ def makePC(world):
   pc.addComponent(Velocity2D())
   pc.addComponent(Shape2D(pygame.Rect(0,HALFSQUARESIZE,SQUARESIZE,HALFSQUARESIZE)))
   pc.addComponent(Representation2D(pcblock, 0))
-  pc.addComponent(Camera2D(pygame.Rect(0,0,SCREENW,SCREENH),1,2))
+  pc.addComponent(Camera2D(pygame.Rect(0,SQUARESIZE*2*4,SCREENW,SQUARESIZE*2*11),1,2))
   pc.addToWorld()
   return pc
   
@@ -45,7 +45,7 @@ def makeAI(world):
   ai.addComponent(Velocity2D())
   ai.addComponent(Shape2D(pygame.Rect(0,HALFSQUARESIZE,SQUARESIZE,HALFSQUARESIZE)))
   ai.addComponent(Representation2D(aiblock, 0))
-  ai.addComponent(Camera2D(pygame.Rect(520,20,100,100),0))
+  ai.addComponent(Camera2D(pygame.Rect(0,0,SCREENW,SQUARESIZE*2*4),0,0.5))
   ai.addComponent(AIKeyboard())
   ai.addToWorld()
   return ai
@@ -74,23 +74,39 @@ def main():
   #walls = te.getWalls(tiles)
 
   wallblock = pygame.image.load("../resources/images/wall.bmp")
+  walltopblock = pygame.image.load("../resources/images/walltop.bmp")
+  topleftcornerblock = pygame.image.load("../resources/images/topleftcorner.bmp")
+  toprightcornerblock = pygame.image.load("../resources/images/toprightcorner.bmp")
+  bottomrightcornerblock = pygame.image.load("../resources/images/bottomrightcorner.bmp")
+  bottomleftcornerblock = pygame.image.load("../resources/images/bottomleftcorner.bmp")
   floorblock = pygame.Surface((SQUARESIZE,SQUARESIZE))
   floorblock.fill((255,227,171))
 
-  for tile in tiles:
+  for tile in [t for t in tiles if t.type != 'blank']:
     e = world.createEntity()
     e.addComponent(Position2D(tile.x, tile.y))
     if tile.type == 'wall':
       e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size)))
       e.addComponent(Representation2D(wallblock,1))
-      e.addToWorld()
+    if tile.type == 'wall-top':
+      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size)))
+      e.addComponent(Representation2D(walltopblock,1))
     elif tile.type == 'floor':
       e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size), isSolid=False))
       e.addComponent(Representation2D(floorblock,1))
-      e.addToWorld()
-    #else:
-    #  e.addComponent(Square(tile.size, isSolid=False))
-    #  e.addComponent(Representation2D(blankblock,1))
+    elif tile.type == 'top-left-corner':
+      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size/2), pygame.Rect(0,tile.size/2,tile.size/2,tile.size/2)))
+      e.addComponent(Representation2D(topleftcornerblock,1))
+    elif tile.type == 'top-right-corner':
+      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size/2), pygame.Rect(tile.size/2,tile.size/2,tile.size/2,tile.size/2)))
+      e.addComponent(Representation2D(toprightcornerblock,1))
+    elif tile.type == 'bottom-right-corner':
+      e.addComponent(Shape2D(pygame.Rect(0,tile.size/2,tile.size,tile.size/2), pygame.Rect(tile.size/2,0,tile.size/2,tile.size/2)))
+      e.addComponent(Representation2D(bottomrightcornerblock,1))
+    elif tile.type == 'bottom-left-corner':
+      e.addComponent(Shape2D(pygame.Rect(0,tile.size/2,tile.size,tile.size/2), pygame.Rect(0,0,tile.size/2,tile.size/2)))
+      e.addComponent(Representation2D(bottomleftcornerblock,1))
+    e.addToWorld()
     
   #mep = te.blitMap(tiles,w*2+1,h*2+1)
   speed = 4

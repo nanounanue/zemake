@@ -100,27 +100,55 @@ def main():
   for tile in [t for t in tiles if t.type != 'blank']:
     e = world.createEntity()
     e.addComponent(Position2D(tile.x, tile.y))
+    e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size), isSolid = False))
     if tile.type == 'wall':
-      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size)))
       e.addComponent(Representation2D(wallblock,1))
+      e.getComponent(Shape2D).isSolid = True
     if tile.type == 'wall-top':
-      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size)))
       e.addComponent(Representation2D(walltopblock,1))
+      e.getComponent(Shape2D).isSolid = True
     elif tile.type == 'floor':
-      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size), isSolid=False))
       e.addComponent(Representation2D(floorblock,1))
     elif tile.type == 'top-left-corner':
-      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size/2), pygame.Rect(0,tile.size/2,tile.size/2,tile.size/2)))
       e.addComponent(Representation2D(topleftcornerblock,1))
+      e2 = world.createEntity()
+      e2.addComponent(Position2D(tile.x,tile.y+tile.size/2))
+      e2.addComponent(Shape2D(pygame.Rect(0,0,tile.size/2,tile.size/2)))
+      e2.addToWorld()
+      e3 = world.createEntity()
+      e3.addComponent(Position2D(tile.x, tile.y))
+      e3.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size/2)))
+      e3.addToWorld()
     elif tile.type == 'top-right-corner':
-      e.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size/2), pygame.Rect(tile.size/2,tile.size/2,tile.size/2,tile.size/2)))
       e.addComponent(Representation2D(toprightcornerblock,1))
+      e2 = world.createEntity()
+      e2.addComponent(Position2D(tile.x+tile.size/2,tile.y+tile.size/2))
+      e2.addComponent(Shape2D(pygame.Rect(0,0,tile.size/2,tile.size/2)))
+      e2.addToWorld()
+      e3 = world.createEntity()
+      e3.addComponent(Position2D(tile.x, tile.y))
+      e3.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size/2)))
+      e3.addToWorld()
     elif tile.type == 'bottom-right-corner':
-      e.addComponent(Shape2D(pygame.Rect(0,tile.size/2,tile.size,tile.size/2), pygame.Rect(tile.size/2,0,tile.size/2,tile.size/2)))
       e.addComponent(Representation2D(bottomrightcornerblock,1))
+      e2 = world.createEntity()
+      e2.addComponent(Position2D(tile.x+tile.size/2,tile.y))
+      e2.addComponent(Shape2D(pygame.Rect(0,0,tile.size/2,tile.size/2)))
+      e2.addToWorld()
+      e3 = world.createEntity()
+      e3.addComponent(Position2D(tile.x,tile.y+tile.size/2))
+      e3.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size/2)))
+      e3.addToWorld()
     elif tile.type == 'bottom-left-corner':
-      e.addComponent(Shape2D(pygame.Rect(0,tile.size/2,tile.size,tile.size/2), pygame.Rect(0,0,tile.size/2,tile.size/2)))
       e.addComponent(Representation2D(bottomleftcornerblock,1))
+      e2 = world.createEntity()
+      e2.addComponent(Position2D(tile.x,tile.y))
+      e2.addComponent(Shape2D(pygame.Rect(0,0,tile.size/2,tile.size/2)))
+      e2.addToWorld()
+      e3 = world.createEntity()
+      e3.addComponent(Position2D(tile.x,tile.y+tile.size/2))
+      e3.addComponent(Shape2D(pygame.Rect(0,0,tile.size,tile.size/2)))
+      e3.addToWorld()
     e.addToWorld()
     
   #mep = te.blitMap(tiles,w*2+1,h*2+1)

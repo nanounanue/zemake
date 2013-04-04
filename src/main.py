@@ -15,7 +15,9 @@ from Components.Representation2D import Representation2D
 from Components.Camera2D import Camera2D
 from Components.AIKeyboard import AIKeyboard
 from Components.Player import Player
-from MazeMaker import makemaze
+from Components.Hazard import Hazard
+from Components.Weapon import Weapon
+from Components.Health import Health
 
 SQUARESIZE=16
 HALFSQUARESIZE=SQUARESIZE/2
@@ -35,6 +37,7 @@ def makePC(world):
   pc.addComponent(Shape2D(pygame.Rect(0,HALFSQUARESIZE,SQUARESIZE,HALFSQUARESIZE)))
   pc.addComponent(Representation2D(pcblock, 0))
   pc.addComponent(Player())
+  pc.addComponent(Health(16*3))
   #pc.addComponent(Camera2D(pygame.Rect(HALFSQUARESIZE,SQUARESIZE*2*4,SCREENW-SQUARESIZE,SQUARESIZE*2*11),1,2))
   pc.addToWorld()
   
@@ -57,6 +60,7 @@ def makeAI(world):
   ai.addComponent(Representation2D(aiblock, 0))
   #ai.addComponent(Camera2D(pygame.Rect(HALFSQUARESIZE,0,SCREENW-SQUARESIZE,SQUARESIZE*2*4),0,0.5))
   ai.addComponent(AIKeyboard())
+  ai.addComponent(Hazard())
   ai.addToWorld()
   return ai
 
@@ -80,13 +84,12 @@ def main():
   pcpc = pc.getComponent(Position2D)
   pcvc = pc.getComponent(Velocity2D)
   pcsc = pc.getComponent(Shape2D)
+  pchc = pc.getComponent(Health)
   ai = makeAI(world)
   
   tiles = te.buildMap("../resources/maps/first.map",SQUARESIZE)
   w=20
   h=20
-  #tiles = makemaze(w,h,SQUARESIZE)
-  #walls = te.getWalls(tiles)
 
   wallblock = pygame.image.load("../resources/images/wall.bmp")
   walltopblock = pygame.image.load("../resources/images/walltop.bmp")
@@ -156,6 +159,12 @@ def main():
   t = time.time()
   nexttick = t + (1.0/30)
   ct = 90
+  hbg = pygame.Surface((32*3,32))
+  hbg.fill((255,255,255))
+  hbgrect = (5,5)
+  hfg = pygame.Surface((32*3-2,30))  
+  hfg.fill((255,0,0))
+  hfgrect = (6,6)    
   while not quit:
     t = time.time()
     if t >= nexttick:
@@ -186,7 +195,6 @@ def main():
             ai.getComponent(Velocity2D).dx = 0 
           if event.key == pygame.K_RIGHT:
             ai.getComponent(Velocity2D).dx = 0
-            
       if inputEngine.update() == pygame.event.Event(pygame.QUIT):
         quit = True
       t0 = time.time()
@@ -194,18 +202,21 @@ def main():
       t1 = time.time()
       screen.fill((0,0,0))
       world.render()
+      screen.blit(hbg, hbgrect)
+      hfg = pygame.transform.scale(hfg, ((32*3-2)*(pchc.health)/pchc.max, 30))
+      screen.blit(hfg, hfgrect)
       pygame.display.flip()
       t2 = time.time()
       fullt=t2-t
       updatet=t1-t0
       rendert=t2-t1
-      if fullt != 0:
-        print("# of Entities: " + str(len(world.entities)))
-        print("# of Walls: " + str(len([e for e in world.entities.values() if Shape2D in e.componentTypes and e.getComponent(Shape2D).isSolid])))
-        print("Time: " + str(fullt) + "("+str(fullt*3000)+"%)")
-        print("Update: " + str(updatet/fullt*100) + '%')
-        print("Render: " + str(rendert/fullt*100) + '%')
-        print("Other: " + str((t2-t-updatet-rendert)/fullt*100) + '%\n')
+      #if fullt != 0:
+        #print("# of Entities: " + str(len(world.entities)))
+        #print("# of Walls: " + str(len([e for e in world.entities.values() if Shape2D in e.componentTypes and e.getComponent(Shape2D).isSolid])))
+        #print("Time: " + str(fullt) + "("+str(fullt*3000)+"%)")
+        #print("Update: " + str(updatet/fullt*100) + '%')
+        #print("Render: " + str(rendert/fullt*100) + '%')
+        #print("Other: " + str((t2-t-updatet-rendert)/fullt*100) + '%\n')
       
 if __name__ == '__main__':
   main()
